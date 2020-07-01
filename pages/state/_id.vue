@@ -1,13 +1,24 @@
 <template>
   <div style="width: 100%;">
-    <div class="row text-center">
-      <button @click="fillData('positives')">Positive Cases</button>
-      <button @click="fillData('tests')">Tests Completed</button>
-      <!-- <button></button> -->
+    <div>
+      <b-tabs content-class="mt-3" align="center">
+        <b-tab
+          title="Positive Cases"
+          active
+          @click="fillData('positives')"
+        ></b-tab>
+        <b-tab title="Deaths" @click="fillData('deaths')"></b-tab>
+        <b-tab title="Tests Completed" @click="fillData('tests')"></b-tab>
+      </b-tabs>
     </div>
-    <div class="col-xs-12">
-      <line-chart :chart-data="chartData" :options="options" height="170" />
-    </div>
+    <b-col>
+      <line-chart
+        v-if="loaded"
+        :chart-data="chartData"
+        :options="options"
+        height="170"
+      />
+    </b-col>
   </div>
 </template>
 
@@ -19,6 +30,7 @@ export default {
   name: 'LineChartContainer',
   components: { LineChart },
   data: () => ({
+    loaded: false,
     chartData: null,
     options: {
       // layout: {
@@ -32,6 +44,10 @@ export default {
     },
     apiData: null,
   }),
+  async mounted() {
+    await this.fetchApiData()
+    this.fillData('positives')
+  },
   methods: {
     parseDateString(dateString) {
       return (
@@ -49,12 +65,16 @@ export default {
       } else if (dataType === 'tests') {
         dataEl.datasets[0].label = 'Tests Completed'
         return el.totalTestResultsIncrease
+      } else if (dataType === 'deaths') {
+        dataEl.datasets[0].label = 'Deaths'
+        return el.deathIncrease
       }
     },
     fillData(dataType) {
+      this.loaded = false
       const dataEl = {
         labels: [],
-        datasets: [{ label: null, data: [] }],
+        datasets: [{ backgroundColor: '#17a2b8', label: null, data: [] }],
         responsive: true,
       }
       this.apiData.forEach((el) => {
@@ -62,6 +82,7 @@ export default {
         dataEl.datasets[0].data.unshift(this.selectData(dataType, el, dataEl))
       })
       this.chartData = dataEl
+      this.loaded = true
     },
     async fetchApiData() {
       try {
@@ -73,10 +94,6 @@ export default {
         console.error(e)
       }
     },
-  },
-  async mounted() {
-    await this.fetchApiData()
-    this.fillData('positives')
   },
 }
 </script>
