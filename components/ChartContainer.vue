@@ -8,6 +8,15 @@
       ></b-tab>
       <b-tab title="Deaths" @click="fillData('deaths')"></b-tab>
       <b-tab title="Tests Completed" @click="fillData('tests')"></b-tab>
+      <b-tab
+        title="Current Hospitalizations"
+        @click="fillData('hospitalized')"
+      ></b-tab>
+      <b-tab title="Currently in ICU" @click="fillData('icu')"></b-tab>
+      <b-tab
+        title="Currently on Ventilator"
+        @click="fillData('ventilator')"
+      ></b-tab>
     </b-tabs>
     <b-row>
       <b-col>
@@ -28,7 +37,12 @@ import LineChart from '@/components/Chart.vue'
 
 const ChartContainerProps = Vue.extend({
   props: {
-    apiData: Array,
+    apiData: {
+      type: Array,
+      default() {
+        return []
+      },
+    },
   },
 })
 
@@ -69,7 +83,17 @@ export default class ChartContainer extends ChartContainerProps {
     } else if (dataType === 'deaths') {
       dataEl.datasets[0].label = 'Deaths'
       val = el.deathIncrease
+    } else if (dataType === 'hospitalized') {
+      dataEl.datasets[0].label = 'Currently Hospitalized'
+      val = el.hospitalizedCurrently
+    } else if (dataType === 'icu') {
+      dataEl.datasets[0].label = 'Currently in ICU'
+      val = el.inIcuCurrently
+    } else if (dataType === 'ventilator') {
+      dataEl.datasets[0].label = 'Currently on Ventilator'
+      val = el.onVentilatorCurrently
     }
+
     return val
   }
 
@@ -81,6 +105,8 @@ export default class ChartContainer extends ChartContainerProps {
       datasets: [{ backgroundColor: '#17a2b8', label: 'data', data: [] }],
       responsive: true,
     }
+
+    console.log(this.apiData[0])
 
     this.apiData.forEach((el: any) => {
       dataEl.labels.unshift(this.parseDateString(el.date.toString()))

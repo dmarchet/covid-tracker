@@ -2,6 +2,11 @@
   <div>
     <NavBar />
     <Nuxt />
+
+    <footer class="text-center">
+      Data Source: CovidTracking.com Copyright © 2020 by The Atlantic Monthly
+      Group
+    </footer>
   </div>
 </template>
 
