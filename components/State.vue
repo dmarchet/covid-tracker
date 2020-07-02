@@ -32,11 +32,14 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 
-// Define the props by using Vue's canonical way.
 const StateProps = Vue.extend({
   props: {
-    // eslint-disable-next-line vue/require-default-prop
-    state: Object,
+    state: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
   },
 })
 

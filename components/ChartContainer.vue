@@ -19,7 +19,7 @@
       ></b-tab>
     </b-tabs>
     <b-row>
-      <b-col>
+      <b-col offset-md="1" cols="10">
         <line-chart
           v-if="loaded"
           :chart-data="chartData"
@@ -105,8 +105,6 @@ export default class ChartContainer extends ChartContainerProps {
       datasets: [{ backgroundColor: '#17a2b8', label: 'data', data: [] }],
       responsive: true,
     }
-
-    console.log(this.apiData[0])
 
     this.apiData.forEach((el: any) => {
       dataEl.labels.unshift(this.parseDateString(el.date.toString()))
