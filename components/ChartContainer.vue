@@ -32,6 +32,12 @@ const ChartContainerProps = Vue.extend({
   },
 })
 
+interface IChartData {
+  labels: String[]
+  datasets: [{ backgroundColor: String; label: String; data: Number[] }]
+  responsive: Boolean
+}
+
 @Component({
   components: { LineChart },
 })
@@ -40,11 +46,6 @@ export default class ChartContainer extends ChartContainerProps {
   loaded = false
   chartData = {}
   options = {}
-  defaultData = {
-    labels: [],
-    datasets: [{ backgroundColor: '#17a2b8', label: null, data: [] }],
-    responsive: true,
-  }
 
   // methods
   parseDateString(dateString: String): String {
@@ -74,15 +75,18 @@ export default class ChartContainer extends ChartContainerProps {
 
   fillData(dataType: String): void {
     this.loaded = false
-    const dataEl = {
+
+    const dataEl: IChartData = {
       labels: [],
-      datasets: [{ backgroundColor: '#17a2b8', label: null, data: [] }],
+      datasets: [{ backgroundColor: '#17a2b8', label: 'data', data: [] }],
       responsive: true,
     }
+
     this.apiData.forEach((el: any) => {
       dataEl.labels.unshift(this.parseDateString(el.date.toString()))
       dataEl.datasets[0].data.unshift(this.selectData(dataType, el, dataEl))
     })
+
     this.chartData = dataEl
     this.loaded = true
   }
