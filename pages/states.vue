@@ -30,7 +30,7 @@
         <b-tbody>
           <State
             v-for="(state, index) in states"
-            :key="state.hasn"
+            :key="state.hash"
             :state="state"
             :data-index="index"
           />
