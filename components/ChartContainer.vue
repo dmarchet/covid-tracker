@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import LineChart from '@/components/Chart.vue'
+import LineChart from '@/components/Chart.js'
 
 const ChartContainerProps = Vue.extend({
   props: {
