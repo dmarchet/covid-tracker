@@ -2,7 +2,7 @@
   <section class="panel">
     <div class="col-xs-12">
       <h1 class="text-center">Totals By State</h1>
-      <b-table-simple hover condensed striped>
+      <b-table-simple hover condensed striped responsive>
         <b-thead>
           <b-tr class="text-center">
             <b-th>St</b-th>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card title="Current US Covid Totals">
-      <b-table-simple table-condensed>
+      <b-table-simple condensed responsive>
         <b-thead>
           <b-tr class="text-center">
             <b-th>Positive</b-th>
